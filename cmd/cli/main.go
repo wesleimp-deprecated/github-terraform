@@ -1,0 +1,38 @@
+package main
+
+import (
+	"fmt"
+	"os"
+
+	"github.com/wesleimp/github-terraform/cmd/cli/execute"
+)
+
+// nolint: gochecknoglobals
+var (
+	version = "dev"
+	commit  = ""
+	date    = ""
+	builtBy = ""
+)
+
+func main() {
+	execute.Run(
+		buildVersion(version, commit, date, builtBy),
+		os.Exit,
+		os.Args[1:],
+	)
+}
+
+func buildVersion(version, commit, date, builtBy string) string {
+	var result = version
+	if commit != "" {
+		result = fmt.Sprintf("%s\ncommit: %s", result, commit)
+	}
+	if date != "" {
+		result = fmt.Sprintf("%s\nbuilt at: %s", result, date)
+	}
+	if builtBy != "" {
+		result = fmt.Sprintf("%s\nbuilt by: %s", result, builtBy)
+	}
+	return result
+}
