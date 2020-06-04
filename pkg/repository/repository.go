@@ -23,10 +23,10 @@ func Import(ctx *context.Context) error {
 		"page":     ctx.Config.Repository.Page,
 	}).Debug("Importing repositorires")
 
-	if len(ctx.Config.Repository.Type) > 0 {
-		if ctx.Config.Repository.Type != "private" || ctx.Config.Repository.Type != "public" {
-			return errors.New("Invalid repository type. Should be private or public")
-		}
+	if ctx.Config.Repository.Type != "" &&
+		ctx.Config.Repository.Type != "private" &&
+		ctx.Config.Repository.Type != "public" {
+		return errors.New("Invalid repository type. Should be private or public")
 	}
 
 	if ctx.Config.Repository.Name != "" {
