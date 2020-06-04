@@ -12,6 +12,7 @@ theme:
     primary: blue
     accent: blue
   language: en
+  custom_dir: docs/overrides
   # logo: static/avatar.png
   # favicon: static/favicon.ico
   include_search_page: false
