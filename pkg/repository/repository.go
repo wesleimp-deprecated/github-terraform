@@ -4,19 +4,29 @@ import (
 	"strings"
 
 	"github.com/apex/log"
+	"github.com/fatih/color"
 	"github.com/google/go-github/github"
 	"github.com/pkg/errors"
+	"github.com/wesleimp/github-terraform/internal/output"
 	"github.com/wesleimp/github-terraform/internal/tmpl"
 	"github.com/wesleimp/github-terraform/pkg/context"
 )
 
 // Import repositories
 func Import(ctx *context.Context) error {
-	log.Info("Importing repositorires")
+	log.WithFields(log.Fields{
+		"name":     ctx.Config.Repository.Name,
+		"org":      ctx.Config.Repository.Org,
+		"user":     ctx.Config.Repository.User,
+		"type":     ctx.Config.Repository.Type,
+		"per-page": ctx.Config.Repository.PerPage,
+		"page":     ctx.Config.Repository.Page,
+	}).Debug("Importing repositorires")
 
-	if ctx.Config.Repository.Type != "" &&
-		ctx.Config.Repository.Type != "private" || ctx.Config.Repository.Type != "public" {
-		return errors.New("Invalid repository type. Should be private or public")
+	if len(ctx.Config.Repository.Type) > 0 {
+		if ctx.Config.Repository.Type != "private" || ctx.Config.Repository.Type != "public" {
+			return errors.New("Invalid repository type. Should be private or public")
+		}
 	}
 
 	if ctx.Config.Repository.Name != "" {
@@ -57,13 +67,17 @@ func importRepoByName(ctx *context.Context, name string) error {
 func importReposByOrg(ctx *context.Context, org string) error {
 	rr, _, err := ctx.Client.Repositories.ListByOrg(ctx, org, &github.RepositoryListByOrgOptions{
 		Type: ctx.Config.Repository.Type,
+		ListOptions: github.ListOptions{
+			PerPage: ctx.Config.Repository.PerPage,
+			Page:    ctx.Config.Repository.Page,
+		},
 	})
 	if err != nil {
 		return errors.Wrap(err, "Error listing repos by org")
 	}
 
 	for _, r := range rr {
-		err := importRepo(ctx, ctx.Config.Repository.Name, r.GetName())
+		err := importRepo(ctx, ctx.Config.Repository.Org, r.GetName())
 		if err != nil {
 			return err
 		}
@@ -75,6 +89,10 @@ func importReposByOrg(ctx *context.Context, org string) error {
 func importReposByUser(ctx *context.Context, user string) error {
 	rr, _, err := ctx.Client.Repositories.List(ctx, user, &github.RepositoryListOptions{
 		Type: ctx.Config.Repository.Type,
+		ListOptions: github.ListOptions{
+			PerPage: ctx.Config.Repository.PerPage,
+			Page:    ctx.Config.Repository.Page,
+		},
 	})
 
 	if err != nil {
@@ -82,7 +100,7 @@ func importReposByUser(ctx *context.Context, user string) error {
 	}
 
 	for _, r := range rr {
-		err := importRepo(ctx, ctx.Config.Repository.Name, r.GetName())
+		err := importRepo(ctx, ctx.Config.Repository.User, r.GetName())
 		if err != nil {
 			return err
 		}
@@ -92,12 +110,13 @@ func importReposByUser(ctx *context.Context, user string) error {
 }
 
 func importRepo(ctx *context.Context, owner, repo string) error {
+	color.New(color.Bold).Printf("Importing %s/%s\n", owner, repo)
 	r, _, err := ctx.Client.Repositories.Get(ctx, owner, repo)
 	if err != nil {
 		return errors.Wrapf(err, "Error getting repository %s/%s", owner, repo)
 	}
 
-	_, err = tmpl.New().WithFields(tmpl.Fields{
+	content, err := tmpl.New().WithFields(tmpl.Fields{
 		"Name":              r.GetName(),
 		"Description":       r.GetDescription(),
 		"Private":           r.GetPrivate(),
@@ -116,6 +135,11 @@ func importRepo(ctx *context.Context, owner, repo string) error {
 	}).Apply(Template)
 	if err != nil {
 		return err
+	}
+
+	err = output.Save(ctx.Config.Repository.Dest, r.GetName(), content)
+	if err != nil {
+		return errors.Wrapf(err, "Error on save output file. Repo: %s", r.GetFullName())
 	}
 
 	return nil

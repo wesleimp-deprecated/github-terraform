@@ -15,13 +15,14 @@ type Context struct {
 }
 
 // New creates new context
-func New() *Context {
-	return Wrap(ctx.Background())
+func New(conf *config.Config) *Context {
+	return Wrap(ctx.Background(), conf)
 }
 
 // Wrap context
-func Wrap(ctx ctx.Context) *Context {
+func Wrap(ctx ctx.Context, conf *config.Config) *Context {
 	return &Context{
 		Context: ctx,
+		Config:  conf,
 	}
 }

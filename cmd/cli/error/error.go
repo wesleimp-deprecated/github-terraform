@@ -16,8 +16,8 @@ func WrapWithCode(err error, code int, details string) *Exit {
 	}
 }
 
-// WrapError wraps error with status 1
-func WrapError(err error, log string) *Exit {
+// Wrap wraps error with status 1
+func Wrap(err error, log string) *Exit {
 	return WrapWithCode(err, 1, log)
 }
 
