@@ -17,5 +17,7 @@ var Template = `resource "github_repository" "repository_{{ .Name }}" {
   gitignore_template = "{{ .GitignoreTemplate }}"
   license_template   = "{{ .LicenseTemplate }}"
   homepage_url       = "{{ .HomepageURL }}"
+  default_brach      = "{{ .DefaultBranch }}"
+  topics             = "{{ .Topics }}"
 }
 `

@@ -132,6 +132,8 @@ func importRepo(ctx *context.Context, owner, repo string) error {
 		"HasProjects":       r.GetHasProjects(),
 		"HasWiki":           r.GetHasWiki(),
 		"HomepageURL":       r.GetHomepage(),
+		"DefaultBranch":     r.GetDefaultBranch(),
+		"Topics":            strings.Join(r.Topics, ","),
 	}).Apply(Template)
 	if err != nil {
 		return err
