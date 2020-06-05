@@ -63,24 +63,6 @@ archives:
     format_overrides:
     - goos: windows
       format: zip
-brews:
-  - github:
-      owner: wesleimp
-      name: homebrew-tap
-    folder: Formula
-    homepage: https://github.com/wesleimp/github-terraform
-    description: Terraform import of your Github
-    test: |
-      system "#{bin}/github-terraform -h"
-    dependencies:
-    - name: go
-scoop:
-  bucket:
-    owner: wesleimp
-    name: scoop-bucket
-  homepage:  https://github.com/wesleimp/github-terraform
-  description: Terraform import of your Github
-  license: MIT
 snapcrafts:
   - name_template: '{{ .ProjectName }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
     summary: Terraform import of your Github
