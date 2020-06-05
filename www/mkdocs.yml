@@ -41,6 +41,7 @@ nav:
 - CLI:
   - cli/repositories.md
   - cli/teams.md
+  - cli/repository_collaborator.md
 
 markdown_extensions:
   - admonition

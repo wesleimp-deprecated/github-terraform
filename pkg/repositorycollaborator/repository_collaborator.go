@@ -2,7 +2,6 @@ package repositorycollaborator
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/fatih/color"
 	"github.com/google/go-github/github"
@@ -15,20 +14,16 @@ import (
 
 // Import repository collaborators
 func Import(ctx *context.Context) error {
-	if ctx.Config.RepositoryCollaborator.Name != "" {
-		return importByName(ctx, ctx.Config.RepositoryCollaborator.Name)
+	if ctx.Config.RepositoryCollaborator.Repo == "" || ctx.Config.RepositoryCollaborator.Owner == "" {
+		return errors.New("Repository and owner property should be informed to import collaborators")
+	}
+
+	err := importRepo(ctx, ctx.Config.RepositoryCollaborator.Owner, ctx.Config.RepositoryCollaborator.Repo)
+	if err != nil {
+		return err
 	}
 
 	return nil
-}
-
-func importByName(ctx *context.Context, name string) error {
-	var ownerRepo = strings.Split(name, "/")
-	if len(ownerRepo) != 2 {
-		return errors.New("Invalid repository name. The name must be owner/repo")
-	}
-
-	return importRepo(ctx, ownerRepo[0], ownerRepo[1])
 }
 
 func importRepo(ctx *context.Context, owner, repo string) error {

@@ -30,7 +30,7 @@ type Team struct {
 
 // RepositoryCollaborator config
 type RepositoryCollaborator struct {
-	Name    string
+	Repo    string
 	Owner   string
 	Dest    string
 	PerPage int

@@ -20,8 +20,9 @@ type Cmd struct {
 }
 
 type options struct {
-	name    string
+	repo    string
 	owner   string
+	user    string
 	dest    string
 	token   string
 	perPage int
@@ -51,10 +52,10 @@ func NewCmd() *Cmd {
 		},
 	}
 
-	commands.Flags().StringVarP(&root.options.name, "name", "n", "", `Repository name. The name must contains owner/repo`)
-	commands.Flags().StringVarP(&root.options.owner, "owner", "o", "", `Repository owner.`)
+	commands.Flags().StringVarP(&root.options.repo, "repo", "r", "", `Repository name`)
+	commands.Flags().StringVarP(&root.options.owner, "owner", "o", "", `Repository owner`)
 	commands.Flags().StringVarP(&root.options.dest, "dest", "d", "./output", "Path that will contains the output files")
-	commands.Flags().StringVar(&root.options.token, "token", "", "Github token. This property is not necessary if you already exported GITHUB_TOKEN")
+	commands.Flags().StringVar(&root.options.token, "token", "", "Github token. This property is not necessary if you already exported $GITHUB_TOKEN")
 	commands.Flags().IntVar(&root.options.perPage, "per-page", 100, "Items per page")
 	commands.Flags().IntVar(&root.options.page, "page", 1, "Current page")
 
@@ -77,8 +78,7 @@ func startImport(o options) (*context.Context, error) {
 }
 
 func setupContext(ctx *context.Context, o options) *context.Context {
-	ctx.Config.RepositoryCollaborator.Dest = o.dest
-	ctx.Config.RepositoryCollaborator.Name = o.name
+	ctx.Config.RepositoryCollaborator.Repo = o.repo
 	ctx.Config.RepositoryCollaborator.Owner = o.owner
 	ctx.Config.RepositoryCollaborator.Dest = o.dest
 	ctx.Config.RepositoryCollaborator.PerPage = o.perPage

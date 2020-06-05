@@ -5,7 +5,7 @@ Import your repositories
 ## Usage
 
 ```sh
-$ github-terraform repos
+$ github-terraform repos --help
 
 Import repositories
 

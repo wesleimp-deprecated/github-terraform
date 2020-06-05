@@ -5,7 +5,7 @@ Import teams
 ## Usage
 
 ```sh
-$ github-terraform teams
+$ github-terraform teams --help
 
 Import teams
 
