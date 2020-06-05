@@ -32,7 +32,6 @@ changelog:
 dockers:
 - image_templates:
     - 'wesleimp/github-terraform:{{ .Tag }}'
-    - 'wesleimp/github-terraform:v{{ .Major }}.{{ .Minor }}'
     - 'wesleimp/github-terraform:latest'
   dockerfile: Dockerfile
   binaries:
