@@ -22,7 +22,7 @@ Flags:
   -o, --org string     Repository organization
       --page int       Current page (default 1)
       --per-page int   Items per page (default 100)
-      --token string   Github token. This property is not necessary if you already exported GITHUB_TOKEN
+      --token string   Github token. This property is not necessary if you already exported $GITHUB_TOKEN
   -t, --type string    Repository type. Could be public or private
   -u, --user string    Repository user
 
