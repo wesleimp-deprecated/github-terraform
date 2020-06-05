@@ -40,6 +40,7 @@ nav:
 - install.md
 - CLI:
   - cli/issue_labels.md
+  - cli/memberships.md
   - cli/repositories.md
   - cli/repository_collaborator.md
   - cli/teams.md

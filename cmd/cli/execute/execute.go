@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/wesleimp/github-terraform/cmd/cli/error"
 	"github.com/wesleimp/github-terraform/cmd/cli/issuelabel"
+	"github.com/wesleimp/github-terraform/cmd/cli/membership"
 	"github.com/wesleimp/github-terraform/cmd/cli/repository"
 	"github.com/wesleimp/github-terraform/cmd/cli/repositorycollaborator"
 	"github.com/wesleimp/github-terraform/cmd/cli/teams"
@@ -59,6 +60,7 @@ func newRootCmd(version string, exit func(int)) *rootCmd {
 		repository.NewCmd().Cmd,
 		repositorycollaborator.NewCmd().Cmd,
 		teams.NewCmd().Cmd,
+		membership.NewCmd().Cmd,
 	)
 
 	root.cmd = cmd

@@ -6,6 +6,7 @@ type Config struct {
 	RepositoryCollaborator RepositoryCollaborator
 	Team                   Team
 	IssueLabel             IssueLabel
+	Membership             Membership
 }
 
 // Repository config
@@ -45,4 +46,12 @@ type IssueLabel struct {
 	Dest    string
 	PerPage int
 	Page    int
+}
+
+// Membership config
+type Membership struct {
+	State   string
+	PerPage int
+	Page    int
+	Dest    string
 }

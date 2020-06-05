@@ -27,7 +27,7 @@ func Import(ctx *context.Context) error {
 }
 
 func importRepo(ctx *context.Context, owner, repo string) error {
-	color.New(color.Bold).Printf("Importing collabortors for %s/%s", owner, repo)
+	color.New(color.Bold).Printf("Importing collabortors for %s/%s\n", owner, repo)
 	cc, _, err := ctx.Client.Repositories.ListCollaborators(ctx, owner, repo, &github.ListCollaboratorsOptions{
 		ListOptions: github.ListOptions{
 			Page:    ctx.Config.RepositoryCollaborator.Page,

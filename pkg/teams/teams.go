@@ -16,7 +16,7 @@ import (
 // Import teams
 func Import(ctx *context.Context) error {
 	log.WithFields(log.Fields{
-		"Orga": ctx.Config.Team.Org,
+		"Org": ctx.Config.Team.Org,
 	}).Debug("Importing teams")
 
 	tt, _, err := ctx.Client.Teams.ListTeams(ctx, ctx.Config.Team.Org, &github.ListOptions{

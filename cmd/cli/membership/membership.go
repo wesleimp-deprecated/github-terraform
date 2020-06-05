@@ -1,4 +1,4 @@
-package issuelabel
+package membership
 
 import (
 	"os"
@@ -10,18 +10,18 @@ import (
 	eerror "github.com/wesleimp/github-terraform/cmd/cli/error"
 	"github.com/wesleimp/github-terraform/pkg/config"
 	"github.com/wesleimp/github-terraform/pkg/context"
-	"github.com/wesleimp/github-terraform/pkg/issuelabel"
+	"github.com/wesleimp/github-terraform/pkg/membership"
 	"golang.org/x/oauth2"
 )
 
+// Cmd config
 type Cmd struct {
 	Cmd     *cobra.Command
 	options options
 }
 
 type options struct {
-	repo    string
-	owner   string
+	state   string
 	dest    string
 	token   string
 	perPage int
@@ -33,8 +33,8 @@ func NewCmd() *Cmd {
 	root := &Cmd{}
 
 	var commands = &cobra.Command{
-		Use:           "issue-labels",
-		Short:         "Import repository issue labels",
+		Use:           "memberships",
+		Short:         "Import organization memberships for the authenticated user",
 		SilenceUsage:  true,
 		SilenceErrors: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -50,8 +50,8 @@ func NewCmd() *Cmd {
 		},
 	}
 
-	commands.Flags().StringVarP(&root.options.repo, "repo", "r", "", `Repository name`)
-	commands.Flags().StringVarP(&root.options.owner, "owner", "o", "", `Repository owner`)
+	//
+	commands.Flags().StringVarP(&root.options.state, "state", "s", "", `Filter memberships to include only those with the specified state. Possible values are: "active", "pending"`)
 	commands.Flags().StringVarP(&root.options.dest, "dest", "d", "./output", "Path that will contains the output files")
 	commands.Flags().StringVar(&root.options.token, "token", "", "Github token. This property is not necessary if you already exported $GITHUB_TOKEN")
 	commands.Flags().IntVar(&root.options.perPage, "per-page", 100, "Items per page")
@@ -63,11 +63,11 @@ func NewCmd() *Cmd {
 
 func startImport(o options) (*context.Context, error) {
 	ctx := context.New(&config.Config{
-		IssueLabel: config.IssueLabel{},
+		Membership: config.Membership{},
 	})
 	ctx = setupContext(ctx, o)
 
-	err := issuelabel.Import(ctx)
+	err := membership.Import(ctx)
 	if err != nil {
 		return ctx, err
 	}
@@ -76,11 +76,10 @@ func startImport(o options) (*context.Context, error) {
 }
 
 func setupContext(ctx *context.Context, o options) *context.Context {
-	ctx.Config.IssueLabel.Repo = o.repo
-	ctx.Config.IssueLabel.Owner = o.owner
-	ctx.Config.IssueLabel.Dest = o.dest
-	ctx.Config.IssueLabel.PerPage = o.perPage
-	ctx.Config.IssueLabel.Page = o.page
+	ctx.Config.Membership.State = o.state
+	ctx.Config.Membership.Dest = o.dest
+	ctx.Config.Membership.PerPage = o.perPage
+	ctx.Config.Membership.Page = o.page
 
 	if o.token == "" {
 		ctx.Token = os.Getenv("GITHUB_TOKEN")
