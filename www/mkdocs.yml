@@ -40,6 +40,7 @@ nav:
 - install.md
 - CLI:
   - cli/repositories.md
+  - cli/teams.md
 
 markdown_extensions:
   - admonition
