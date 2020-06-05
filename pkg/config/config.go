@@ -5,6 +5,7 @@ type Config struct {
 	Repository             Repository
 	RepositoryCollaborator RepositoryCollaborator
 	Team                   Team
+	IssueLabel             IssueLabel
 }
 
 // Repository config
@@ -30,6 +31,15 @@ type Team struct {
 
 // RepositoryCollaborator config
 type RepositoryCollaborator struct {
+	Repo    string
+	Owner   string
+	Dest    string
+	PerPage int
+	Page    int
+}
+
+// IssueLabel config
+type IssueLabel struct {
 	Repo    string
 	Owner   string
 	Dest    string

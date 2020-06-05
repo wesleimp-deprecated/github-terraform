@@ -1,4 +1,4 @@
-package repositorycollaborator
+package issuelabel
 
 import (
 	"os"
@@ -10,11 +10,10 @@ import (
 	eerror "github.com/wesleimp/github-terraform/cmd/cli/error"
 	"github.com/wesleimp/github-terraform/pkg/config"
 	"github.com/wesleimp/github-terraform/pkg/context"
-	"github.com/wesleimp/github-terraform/pkg/repositorycollaborator"
+	"github.com/wesleimp/github-terraform/pkg/issuelabel"
 	"golang.org/x/oauth2"
 )
 
-// Cmd config
 type Cmd struct {
 	Cmd     *cobra.Command
 	options options
@@ -23,7 +22,6 @@ type Cmd struct {
 type options struct {
 	repo    string
 	owner   string
-	user    string
 	dest    string
 	token   string
 	perPage int
@@ -35,9 +33,8 @@ func NewCmd() *Cmd {
 	root := &Cmd{}
 
 	var commands = &cobra.Command{
-		Use:           "repository-collaborator",
-		Aliases:       []string{"repo-collaborator"},
-		Short:         "Import repository collaborator",
+		Use:           "issue-labels",
+		Short:         "Import repository issue labels",
 		SilenceUsage:  true,
 		SilenceErrors: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -70,7 +67,7 @@ func startImport(o options) (*context.Context, error) {
 	})
 	ctx = setupContext(ctx, o)
 
-	err := repositorycollaborator.Import(ctx)
+	err := issuelabel.Import(ctx)
 	if err != nil {
 		return ctx, err
 	}
@@ -79,11 +76,11 @@ func startImport(o options) (*context.Context, error) {
 }
 
 func setupContext(ctx *context.Context, o options) *context.Context {
-	ctx.Config.RepositoryCollaborator.Repo = o.repo
-	ctx.Config.RepositoryCollaborator.Owner = o.owner
-	ctx.Config.RepositoryCollaborator.Dest = o.dest
-	ctx.Config.RepositoryCollaborator.PerPage = o.perPage
-	ctx.Config.RepositoryCollaborator.Page = o.page
+	ctx.Config.IssueLabel.Repo = o.repo
+	ctx.Config.IssueLabel.Owner = o.owner
+	ctx.Config.IssueLabel.Dest = o.dest
+	ctx.Config.IssueLabel.PerPage = o.perPage
+	ctx.Config.IssueLabel.Page = o.page
 
 	if o.token == "" {
 		ctx.Token = os.Getenv("GITHUB_TOKEN")

@@ -6,6 +6,7 @@ import (
 	"github.com/apex/log"
 	"github.com/spf13/cobra"
 	"github.com/wesleimp/github-terraform/cmd/cli/error"
+	"github.com/wesleimp/github-terraform/cmd/cli/issuelabel"
 	"github.com/wesleimp/github-terraform/cmd/cli/repository"
 	"github.com/wesleimp/github-terraform/cmd/cli/repositorycollaborator"
 	"github.com/wesleimp/github-terraform/cmd/cli/teams"
@@ -54,6 +55,7 @@ func newRootCmd(version string, exit func(int)) *rootCmd {
 	}
 
 	cmd.AddCommand(
+		issuelabel.NewCmd().Cmd,
 		repository.NewCmd().Cmd,
 		repositorycollaborator.NewCmd().Cmd,
 		teams.NewCmd().Cmd,
