@@ -10,6 +10,7 @@ import (
 	"github.com/wesleimp/github-terraform/internal/output"
 	"github.com/wesleimp/github-terraform/internal/tmpl"
 	"github.com/wesleimp/github-terraform/pkg/context"
+	"github.com/wesleimp/github-terraform/pkg/templates"
 )
 
 // Import teams
@@ -38,7 +39,7 @@ func Import(ctx *context.Context) error {
 			"Description":  t.GetDescription(),
 			"Privacy":      t.GetPrivacy(),
 			"ParentID":     t.GetParent().GetID(),
-		}).Apply(Template)
+		}).Apply(templates.Teams)
 		if err != nil {
 			return err
 		}

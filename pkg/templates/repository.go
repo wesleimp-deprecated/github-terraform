@@ -1,7 +1,7 @@
-package repository
+package templates
 
-// Template is a generic template for all repositories
-var Template = `resource "github_repository" "repository_{{ .Name }}" {
+// Repository template
+var Repository = `resource "github_repository" "repository_{{ .Name }}" {
   name               = "{{ .Name }}"
   description        = "{{ .Description }}"
   private            = {{ .Private }}

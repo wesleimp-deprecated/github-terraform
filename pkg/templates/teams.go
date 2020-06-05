@@ -1,8 +1,7 @@
-package teams
+package templates
 
-// Template for teams
-var Template = `
-resource "github_team" "team_{{ .Name }}" {
+// Teams template
+var Teams = `resource "github_team" "team_{{ .Name }}" {
   name           = "{{ .Name }}"
   description    = "{{ .Description }}"
   privacy        = "{{ .Privacy }}"

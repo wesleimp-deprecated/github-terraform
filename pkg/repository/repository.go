@@ -10,6 +10,7 @@ import (
 	"github.com/wesleimp/github-terraform/internal/output"
 	"github.com/wesleimp/github-terraform/internal/tmpl"
 	"github.com/wesleimp/github-terraform/pkg/context"
+	"github.com/wesleimp/github-terraform/pkg/templates"
 )
 
 // Import repositories
@@ -53,7 +54,7 @@ func Import(ctx *context.Context) error {
 func importRepoByName(ctx *context.Context, name string) error {
 	ownerRepo := strings.Split(name, "/")
 	if len(ownerRepo) != 2 {
-		return errors.New("Invalid repository name for %s. The name must be owner/repo")
+		return errors.New("Invalid repository name. The name must be owner/repo")
 	}
 
 	err := importRepo(ctx, ownerRepo[0], ownerRepo[1])
@@ -134,7 +135,7 @@ func importRepo(ctx *context.Context, owner, repo string) error {
 		"HomepageURL":       r.GetHomepage(),
 		"DefaultBranch":     r.GetDefaultBranch(),
 		"Topics":            strings.Join(r.Topics, ","),
-	}).Apply(Template)
+	}).Apply(templates.Repository)
 	if err != nil {
 		return err
 	}

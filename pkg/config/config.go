@@ -2,8 +2,9 @@ package config
 
 // Config struct
 type Config struct {
-	Repository Repository
-	Team       Team
+	Repository             Repository
+	RepositoryCollaborator RepositoryCollaborator
+	Team                   Team
 }
 
 // Repository config
@@ -23,6 +24,15 @@ type Team struct {
 	Org     string
 	Dest    string
 	Token   string
+	PerPage int
+	Page    int
+}
+
+// RepositoryCollaborator config
+type RepositoryCollaborator struct {
+	Name    string
+	Owner   string
+	Dest    string
 	PerPage int
 	Page    int
 }
