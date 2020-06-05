@@ -1,0 +1,7 @@
+DirectoryPath: "site"
+IgnoreURLs:
+  - fonts.gstatic.com
+IgnoreDirs:
+  - overrides
+IgnoreDirectoryMissingTrailingSlash: true
+IgnoreAltMissing: true
