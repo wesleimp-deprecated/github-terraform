@@ -34,7 +34,7 @@ func NewCmd() *Cmd {
 
 	var commands = &cobra.Command{
 		Use:           "repository-collaborator",
-		Aliases:       []string{"repos-collab"},
+		Aliases:       []string{"repo-collaborator"},
 		Short:         "Import repository collaborator",
 		SilenceUsage:  true,
 		SilenceErrors: true,
