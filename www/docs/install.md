@@ -1,5 +1,21 @@
 # Install
 
+## Using the pre-compiled binaries
+
+### Snapcraft
+
+```sh
+$ sudo snap install --classic github-terraform
+```
+
+### deb/rpm
+
+Download the `.deb` or `.rpm` from the [releases page](https://github.com/wesleimp/github-terraform/releases) and install with `dpkg -i` and `rpm -i` respectively.
+
+### Manually
+
+Download the pre-compiled binaries from the [releases page](https://github.com/wesleimp/github-terraform/releases) and move to the desired location.
+
 ## Compiling from source
 
 ### Clone

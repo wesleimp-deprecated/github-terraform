@@ -23,7 +23,7 @@ plugins:
   - search:
       prebuild_index: python
       lang:
-      - en
+        - en
   - minify:
       minify_html: true
 
