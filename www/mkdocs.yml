@@ -9,8 +9,8 @@ dev_addr: 0.0.0.0:8000
 theme:
   name: material
   palette:
-    primary: blue
-    accent: blue
+    primary: deep-purple
+    accent: deep-purple
   language: en
   custom_dir: docs/overrides
   # logo: static/avatar.png
