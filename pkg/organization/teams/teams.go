@@ -28,7 +28,7 @@ func Import(ctx *context.Context) error {
 	}
 
 	for _, t := range tt {
-		color.New(color.Bold).Printf("Importing %s team", t.GetName())
+		color.New(color.Bold).Printf("Importing %s team\n", t.GetName())
 
 		resName := strings.ReplaceAll(t.GetName(), " ", "_")
 		resName = strings.ReplaceAll(t.GetName(), "/", "_")

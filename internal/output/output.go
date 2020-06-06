@@ -13,7 +13,7 @@ func Save(dest, name, content string) error {
 	var filename = fmt.Sprintf("%s/%s.tf", dest, name)
 
 	if _, err := os.Stat(dest); os.IsNotExist(err) {
-		log.Printf("Creating %s folfer", dest)
+		log.Printf("Creating %s folfer\n", dest)
 		os.MkdirAll(dest, 0700)
 	}
 

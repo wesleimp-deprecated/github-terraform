@@ -1,17 +1,16 @@
-package repositorycollaborator
+package collaborator
 
 import (
 	"os"
 
 	"github.com/apex/log"
 	"github.com/fatih/color"
-	"github.com/google/go-github/github"
 	"github.com/spf13/cobra"
+	"github.com/wesleimp/github-terraform/cmd/cli/client"
 	eerror "github.com/wesleimp/github-terraform/cmd/cli/error"
 	"github.com/wesleimp/github-terraform/pkg/config"
 	"github.com/wesleimp/github-terraform/pkg/context"
-	"github.com/wesleimp/github-terraform/pkg/repositorycollaborator"
-	"golang.org/x/oauth2"
+	"github.com/wesleimp/github-terraform/pkg/repository/collaborator"
 )
 
 // Cmd config
@@ -35,8 +34,7 @@ func NewCmd() *Cmd {
 	root := &Cmd{}
 
 	var commands = &cobra.Command{
-		Use:           "repository-collaborator",
-		Aliases:       []string{"repo-collaborator"},
+		Use:           "collaborator",
 		Short:         "Import repository collaborator",
 		SilenceUsage:  true,
 		SilenceErrors: true,
@@ -66,11 +64,13 @@ func NewCmd() *Cmd {
 
 func startImport(o options) (*context.Context, error) {
 	ctx := context.New(&config.Config{
-		RepositoryCollaborator: config.RepositoryCollaborator{},
+		Repository: config.Repository{
+			Collaborator: config.Collaborator{},
+		},
 	})
 	ctx = setupContext(ctx, o)
 
-	err := repositorycollaborator.Import(ctx)
+	err := collaborator.Import(ctx)
 	if err != nil {
 		return ctx, err
 	}
@@ -79,11 +79,11 @@ func startImport(o options) (*context.Context, error) {
 }
 
 func setupContext(ctx *context.Context, o options) *context.Context {
-	ctx.Config.RepositoryCollaborator.Repo = o.repo
-	ctx.Config.RepositoryCollaborator.Owner = o.owner
-	ctx.Config.RepositoryCollaborator.Dest = o.dest
-	ctx.Config.RepositoryCollaborator.PerPage = o.perPage
-	ctx.Config.RepositoryCollaborator.Page = o.page
+	ctx.Config.Repository.Collaborator.Repo = o.repo
+	ctx.Config.Repository.Collaborator.Owner = o.owner
+	ctx.Config.Repository.Collaborator.Dest = o.dest
+	ctx.Config.Repository.Collaborator.PerPage = o.perPage
+	ctx.Config.Repository.Collaborator.Page = o.page
 
 	if o.token == "" {
 		ctx.Token = os.Getenv("GITHUB_TOKEN")
@@ -91,17 +91,7 @@ func setupContext(ctx *context.Context, o options) *context.Context {
 		ctx.Token = o.token
 	}
 
-	ctx.Client = setupClient(ctx)
+	ctx.Client = client.New(ctx)
 
 	return ctx
-}
-
-func setupClient(ctx *context.Context) *github.Client {
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: ctx.Token},
-	)
-	tc := oauth2.NewClient(ctx, ts)
-
-	client := github.NewClient(tc)
-	return client
 }

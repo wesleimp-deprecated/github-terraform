@@ -8,9 +8,8 @@ import (
 	"github.com/wesleimp/github-terraform/cmd/cli/error"
 	"github.com/wesleimp/github-terraform/cmd/cli/issuelabel"
 	"github.com/wesleimp/github-terraform/cmd/cli/membership"
+	"github.com/wesleimp/github-terraform/cmd/cli/organization"
 	"github.com/wesleimp/github-terraform/cmd/cli/repository"
-	"github.com/wesleimp/github-terraform/cmd/cli/repositorycollaborator"
-	"github.com/wesleimp/github-terraform/cmd/cli/teams"
 )
 
 // Run starts the execution
@@ -56,10 +55,10 @@ func newRootCmd(version string, exit func(int)) *rootCmd {
 	}
 
 	cmd.AddCommand(
-		issuelabel.NewCmd().Cmd,
+		organization.NewCmd().Cmd,
 		repository.NewCmd().Cmd,
-		repositorycollaborator.NewCmd().Cmd,
-		teams.NewCmd().Cmd,
+
+		issuelabel.NewCmd().Cmd,
 		membership.NewCmd().Cmd,
 	)
 

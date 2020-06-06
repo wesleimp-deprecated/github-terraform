@@ -1,4 +1,4 @@
-package repository
+package repositories
 
 import (
 	"strings"
@@ -23,30 +23,32 @@ func Import(ctx *context.Context) error {
 		"page":     ctx.Config.Organization.Repository.Page,
 	}).Debug("Importing repositorires")
 
-	if ctx.Config.Repository.Type != "" &&
-		ctx.Config.Repository.Type != "private" &&
-		ctx.Config.Repository.Type != "public" {
+	if ctx.Config.Organization.Repository.Type != "" &&
+		ctx.Config.Organization.Repository.Type != "private" &&
+		ctx.Config.Organization.Repository.Type != "public" {
 		return errors.New("Invalid repository type. Should be private or public")
 	}
 
-	if ctx.Config.Repository.Name != "" {
-		return importRepo(ctx, ctx.Config.Repository.User, ctx.Config.Repository.Name)
+	if ctx.Config.Organization.Repository.Name != "" {
+		return importRepo(ctx, ctx.Config.Organization.Repository.Org, ctx.Config.Organization.Repository.Name)
 	}
 
-	err := importRepos(ctx, ctx.Config.Repository.User)
-	if err != nil {
-		return err
+	if ctx.Config.Organization.Repository.Org != "" {
+		err := importReposByOrg(ctx, ctx.Config.Organization.Repository.Org)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
 }
 
-func importRepos(ctx *context.Context, org string) error {
-	rr, _, err := ctx.Client.Repositories.List(ctx, org, &github.RepositoryListOptions{
+func importReposByOrg(ctx *context.Context, org string) error {
+	rr, _, err := ctx.Client.Repositories.ListByOrg(ctx, org, &github.RepositoryListByOrgOptions{
 		Type: ctx.Config.Organization.Repository.Type,
 		ListOptions: github.ListOptions{
-			PerPage: ctx.Config.Repository.PerPage,
-			Page:    ctx.Config.Repository.Page,
+			PerPage: ctx.Config.Organization.Repository.PerPage,
+			Page:    ctx.Config.Organization.Repository.Page,
 		},
 	})
 	if err != nil {
@@ -93,7 +95,7 @@ func importRepo(ctx *context.Context, owner, repo string) error {
 		return err
 	}
 
-	err = output.Save(ctx.Config.Repository.Dest, r.GetName(), content)
+	err = output.Save(ctx.Config.Organization.Repository.Dest, r.GetName(), content)
 	if err != nil {
 		return errors.Wrapf(err, "Error on save output file. Repo: %s", r.GetFullName())
 	}

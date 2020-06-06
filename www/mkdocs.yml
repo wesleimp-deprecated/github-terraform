@@ -39,11 +39,15 @@ nav:
 - Home: index.md
 - install.md
 - CLI:
+  - Organization:
+    - cli/organization/repositories.md
+    - cli/organization/teams.md
+  - Repositories:
+    - cli/repositories/collaborator.md
+    - cli/repositories/repositories.md
+
   - cli/issue_labels.md
   - cli/memberships.md
-  - cli/repositories.md
-  - cli/repository_collaborator.md
-  - cli/teams.md
 
 markdown_extensions:
   - admonition

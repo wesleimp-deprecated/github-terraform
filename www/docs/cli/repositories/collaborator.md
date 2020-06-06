@@ -1,4 +1,4 @@
-# Repository Collaborator
+# Collaborators
 
 Import repository collaborators
 
@@ -10,14 +10,11 @@ $ github-terraform repository-collaborator --help
 Import repository collaborator
 
 Usage:
-  github-terraform repository-collaborator [flags]
-
-Aliases:
-  repository-collaborator, repo-collaborator
+  github-terraform repositories collaborator [flags]
 
 Flags:
   -d, --dest string    Path that will contains the output files (default "./output")
-  -h, --help           help for repository-collaborator
+  -h, --help           help for collaborator
   -o, --owner string   Repository owner
       --page int       Current page (default 1)
       --per-page int   Items per page (default 100)
@@ -28,5 +25,5 @@ Flags:
 **Example**
 
 ```sh
-$ github-terraform repos-collaborator -o my-org -r my-repo
+$ github-terraform repos collaborator -o my-org -r my-repo
 ```

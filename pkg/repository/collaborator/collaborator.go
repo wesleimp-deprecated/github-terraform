@@ -1,4 +1,4 @@
-package repositorycollaborator
+package collaborator
 
 import (
 	"fmt"
@@ -14,11 +14,11 @@ import (
 
 // Import repository collaborators
 func Import(ctx *context.Context) error {
-	if ctx.Config.RepositoryCollaborator.Repo == "" || ctx.Config.RepositoryCollaborator.Owner == "" {
+	if ctx.Config.Repository.Collaborator.Repo == "" || ctx.Config.Repository.Collaborator.Owner == "" {
 		return errors.New("Repository and owner property should be informed to import collaborators")
 	}
 
-	err := importRepo(ctx, ctx.Config.RepositoryCollaborator.Owner, ctx.Config.RepositoryCollaborator.Repo)
+	err := importRepo(ctx, ctx.Config.Repository.Collaborator.Owner, ctx.Config.Repository.Collaborator.Repo)
 	if err != nil {
 		return err
 	}
@@ -30,8 +30,8 @@ func importRepo(ctx *context.Context, owner, repo string) error {
 	color.New(color.Bold).Printf("Importing collabortors for %s/%s\n", owner, repo)
 	cc, _, err := ctx.Client.Repositories.ListCollaborators(ctx, owner, repo, &github.ListCollaboratorsOptions{
 		ListOptions: github.ListOptions{
-			Page:    ctx.Config.RepositoryCollaborator.Page,
-			PerPage: ctx.Config.RepositoryCollaborator.PerPage,
+			Page:    ctx.Config.Repository.Collaborator.Page,
+			PerPage: ctx.Config.Repository.Collaborator.PerPage,
 		},
 	})
 	if err != nil {
@@ -49,7 +49,7 @@ func importRepo(ctx *context.Context, owner, repo string) error {
 			return err
 		}
 
-		err = output.Save(ctx.Config.RepositoryCollaborator.Dest, fmt.Sprintf("%s_%s", repo, c.GetLogin()), content)
+		err = output.Save(ctx.Config.Repository.Collaborator.Dest, fmt.Sprintf("%s_%s", repo, c.GetLogin()), content)
 		if err != nil {
 			return err
 		}
