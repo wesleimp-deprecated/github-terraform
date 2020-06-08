@@ -1,20 +1,20 @@
-# Collaborators
+# Projects
 
-Import repository collaborators
+Import repository projects
 
 ## Usage
 
 ```sh 
-$ github-terraform repository collaborator --help
+$ github-terraform repository project --help
 
-Import repository collaborator
+Import repository project
 
 Usage:
-  github-terraform repositories collaborator [flags]
+  github-terraform repositories project [flags]
 
 Flags:
   -d, --dest string    Path that will contains the output files (default "./output")
-  -h, --help           help for collaborator
+  -h, --help           help for project
   -o, --owner string   Repository owner
       --page int       Current page (default 1)
       --per-page int   Items per page (default 100)
@@ -25,5 +25,5 @@ Flags:
 **Example**
 
 ```sh
-$ github-terraform repos collaborator -o my-org -r my-repo
+$ github-terraform repos project -o my-org -r my-repo
 ```

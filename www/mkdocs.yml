@@ -44,6 +44,7 @@ nav:
     - cli/organization/teams.md
   - Repositories:
     - cli/repositories/collaborator.md
+    - cli/repositories/project.md
     - cli/repositories/repositories.md
 
   - cli/issue_labels.md

@@ -21,3 +21,19 @@ var Repository = `resource "github_repository" "repository_{{ .Name }}" {
   topics             = "{{ .Topics }}"
 }
 `
+
+// RepositoryCollaborator template
+var RepositoryCollaborator = `resource "github_repository_collaborator" "repo_collaborator_{{ .Repository }}_{{ .Username }}" {
+  repository = "{{ .Repository }}"
+  username   = "{{ .Username }}"
+  permission = "{{ .Permission }}"
+}
+`
+
+// RepositoryProject template
+var RepositoryProject = `resource "github_repository_project" "project_{{ .Name }}" {
+  name       = "{{ .Name }}"
+  repository = "{{ .Repository }}"
+  body       = "{{ .Body }}"
+}
+`

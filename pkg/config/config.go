@@ -38,6 +38,7 @@ type Repository struct {
 	PageOptions
 
 	Collaborator
+	Project
 }
 
 // Team config
@@ -55,6 +56,16 @@ type Collaborator struct {
 	Repo  string
 	Owner string
 	Dest  string
+	PageOptions
+}
+
+// Project cofig
+type Project struct {
+	Repo  string
+	Owner string
+	State string
+	Dest  string
+	Token string
 	PageOptions
 }
 
